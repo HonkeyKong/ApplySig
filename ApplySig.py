@@ -16,7 +16,7 @@ try:
 	from typing import List
 except ImportError:
 	pass
-from itertools import izip, islice
+from itertools import islice
 try:
 	from StringIO import StringIO
 except ImportError:
@@ -244,10 +244,10 @@ class FlirtArch(object):
 	ARCH_TMS320C1X = 54   # Texas Instruments TMS320C1x
 	ARCH_NEC_V850X = 55   # NEC V850 and V850ES/E1/E2
 	ARCH_SCR_ADPT = 56    # Processor module adapter for processor modules written in scripting languages
-	ARCH_EBC = 57         # EFI Bytecode
-	ARCH_MSP430 = 58      # Texas Instruments MSP430
-	ARCH_SPU = 59         # Cell Broadband Engine Synergistic Processor Unit
-	ARCH_DALVIK = 60      # Android Dalvik Virtual Machine
+	ARCH_EBC = 57        # EFI Bytecode
+	ARCH_MSP430 = 58     # Texas Instruments MSP430
+	ARCH_SPU = 59        # Cell Broadband Engine Synergistic Processor Unit
+	ARCH_DALVIK = 60     # Android Dalvik Virtual Machine
 
 
 class FlirtFileType(object):
@@ -620,7 +620,7 @@ def match_node_pattern(node, buff, offset):
 	# Check if we have enough data
 	if len(buff) < offset + len(node.pattern):
 		return False
-	for i, (b, p, v) in enumerate(izip(islice(buff, offset, len(buff)), node.pattern, node.variant_mask)):
+	for i, (b, p, v) in enumerate(zip(islice(buff, offset, len(buff)), node.pattern, node.variant_mask)):
 		if b < 0:
 			b = b + 256
 		if v:
@@ -706,7 +706,7 @@ def apply_sig(flirt):
 	#print(funk.entryPoint
 	#print(get_function_end(funk))
 	while funk is not None:
-		funk_start = int(funk.entryPoint.toString(), 16)
+		funk_start = int(funk.getEntryPoint().toString(), 16)
 		funk_end   = get_function_end(funk)
 		funk_buf   = getBytes(parseAddress(hex(funk_start).strip('L')), funk_end - funk_start + 0x100)
 		#print('%x - %x' % (funk_start, funk_end))
